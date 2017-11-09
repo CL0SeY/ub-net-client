@@ -17,7 +17,7 @@ namespace Softengi.UbClient.Linq
 		{
 			Type ienum = FindIEnumerable(seqType);
 			if (ienum == null) return seqType;
-			return ienum.GetGenericArguments()[0];
+			return ienum.GetTypeInfo().GetGenericArguments()[0];
 		}
 
 		static private Type FindIEnumerable(Type seqType)
@@ -30,15 +30,15 @@ namespace Softengi.UbClient.Linq
 
 			if (seqType.GetTypeInfo().IsGenericType)
 			{
-				foreach (Type arg in seqType.GetGenericArguments())
+				foreach (Type arg in seqType.GetTypeInfo().GetGenericArguments())
 				{
 					Type ienum = typeof(IEnumerable<>).MakeGenericType(arg);
-					if (ienum.IsAssignableFrom(seqType))
+					if (ienum.GetTypeInfo().IsAssignableFrom(seqType))
 						return ienum;
 				}
 			}
 
-			Type[] ifaces = seqType.GetInterfaces();
+			Type[] ifaces = seqType.GetTypeInfo().GetInterfaces();
 			if (ifaces.Length > 0)
 			{
 				foreach (var iface in ifaces)

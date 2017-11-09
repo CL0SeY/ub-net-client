@@ -29,7 +29,7 @@ namespace Softengi.UbClient.Linq
 				throw new ArgumentNullException(nameof(provider));
 			if (expression == null)
 				throw new ArgumentNullException(nameof(expression));
-			if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type))
+			if (!typeof(IQueryable<T>).GetTypeInfo().IsAssignableFrom(expression.Type))
 				throw new ArgumentOutOfRangeException(nameof(expression));
 
 			Provider = provider;
