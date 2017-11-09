@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Softengi.UbClient.Linq
 {
@@ -27,7 +28,7 @@ namespace Softengi.UbClient.Linq
 			if (seqType.IsArray)
 				return typeof(IEnumerable<>).MakeGenericType(seqType.GetElementType());
 
-			if (seqType.IsGenericType)
+			if (seqType.GetTypeInfo().IsGenericType)
 			{
 				foreach (Type arg in seqType.GetGenericArguments())
 				{
@@ -47,10 +48,10 @@ namespace Softengi.UbClient.Linq
 				}
 			}
 
-			if (seqType.BaseType == null || seqType.BaseType == typeof(object))
+			if (seqType.GetTypeInfo().BaseType == null || seqType.GetTypeInfo().BaseType == typeof(object))
 				return null;
 
-			return FindIEnumerable(seqType.BaseType);
+			return FindIEnumerable(seqType.GetTypeInfo().BaseType);
 		}
 	}
 }

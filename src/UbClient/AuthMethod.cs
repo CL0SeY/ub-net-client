@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Guardo;
 using Softengi.UbClient.Configuration;
 using Softengi.UbClient.Sessions;
 
@@ -9,7 +9,7 @@ namespace Softengi.UbClient
 	{
 		static public AuthenticationBase FromConfig(UnityBaseConnectionConfiguration ubConnectionConfig)
 		{
-			Argument.NotNull(nameof(ubConnectionConfig), ubConnectionConfig);
+		    Requires.NotNull(ubConnectionConfig, nameof(ubConnectionConfig));
 
 			switch (ubConnectionConfig.AuthenticationMethod)
 			{

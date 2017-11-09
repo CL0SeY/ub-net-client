@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Force.Crc32;
 
 namespace Softengi.UbClient.Sessions
 {
@@ -13,7 +14,7 @@ namespace Softengi.UbClient.Sessions
 				string.Empty,
 				SHA256
 					.Create()
-					.ComputeHash(Encoding.Default.GetBytes(value))
+					.ComputeHash(Encoding.UTF8.GetBytes(value))
 					.Select(b => b.ToString("x2"))
 				);
 		}
@@ -29,7 +30,7 @@ namespace Softengi.UbClient.Sessions
 		static public uint Crc32(string value)
 		{
 			var hash = _crc32Inst
-				.ComputeHash(Encoding.Default.GetBytes(value))
+				.ComputeHash(Encoding.UTF8.GetBytes(value))
 				.Reverse()
 				.ToArray();
 			return BitConverter.ToUInt32(hash, 0);
@@ -45,6 +46,6 @@ namespace Softengi.UbClient.Sessions
 
 		static private readonly DateTime _startTime = new DateTime(1970, 01, 01);
 
-		static private readonly Crc32Algorithm _crc32Inst = new Crc32Algorithm(0x04C11DB7, 0xFFFFFFFF);
+		static private readonly Crc32Algorithm _crc32Inst = new Crc32Algorithm();
 	}
 }
